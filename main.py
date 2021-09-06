@@ -1,8 +1,8 @@
-import discord, os, asyncio
+import discord
 from discord.ext import commands
 from config import *
 
-bot = commands.Bot(command_prefix=prefix, self_bot=True, intents=discord.Intents.all())
+bot = commands.Bot(command_prefix=prefix, self_bot=True, intents=discord.Intents.all(), help_command=None)
 
 bot.sniped_messages = {}
 bot.editsniped_messages = {}
@@ -13,6 +13,11 @@ async def on_ready():
   print(discord.__version__)
   print("--------------")
   await bot.change_presence(activity=discord.Game(name=status))
+
+@bot.command()
+async def help(ctx):
+  await ctx.message.delete()
+  await ctx.send(f"There is only 1 command and that is **{prefix}snipe** `<index>`.")
 
 @bot.event
 async def on_message_delete(message):
